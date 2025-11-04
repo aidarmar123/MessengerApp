@@ -39,6 +39,41 @@
         }
       }
     },
+    "/api/Message/{chatid}": {
+      "get": {
+        "tags": [
+          "Message"
+        ],
+        "operationId": "Message_GetByChatId",
+        "parameters": [
+          {
+            "name": "chatid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Message"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Message": {
       "post": {
         "tags": [
@@ -98,6 +133,232 @@
           0,
           1
         ]
+      },
+      "Message": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseAuditableEntity"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "chatId": {
+                "type": "string",
+                "format": "guid"
+              },
+              "chat": {
+                "$ref": "#/components/schemas/Chat"
+              },
+              "senderId": {
+                "type": "string",
+                "format": "guid"
+              },
+              "sender": {
+                "$ref": "#/components/schemas/User"
+              },
+              "sendAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "content": {
+                "type": "string"
+              },
+              "attachments": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Attachment"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "Chat": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseAuditableEntity"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "type": {
+                "$ref": "#/components/schemas/ChatType"
+              },
+              "participants": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "messages": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Message"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "User": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseAuditableEntity"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "firstName": {
+                "type": "string"
+              },
+              "lastName": {
+                "type": "string"
+              },
+              "displayname": {
+                "type": "string"
+              },
+              "alice": {
+                "type": "string"
+              },
+              "chats": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Chat"
+                }
+              },
+              "messages": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Message"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "BaseAuditableEntity": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseEntity"
+          },
+          {
+            "type": "object",
+            "x-abstract": true,
+            "additionalProperties": false,
+            "properties": {
+              "created": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "createdBy": {
+                "type": "string",
+                "nullable": true
+              },
+              "lastModified": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "lastModifiedBy": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "BaseEntity": {
+        "type": "object",
+        "x-abstract": true,
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "domainEvents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BaseEvent"
+            }
+          }
+        }
+      },
+      "BaseEvent": {
+        "type": "object",
+        "x-abstract": true,
+        "additionalProperties": false
+      },
+      "Attachment": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseAuditableEntity"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "messageId": {
+                "type": "string",
+                "format": "guid"
+              },
+              "message": {
+                "$ref": "#/components/schemas/Message"
+              },
+              "fileName": {
+                "type": "string"
+              },
+              "fileSize": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "type": {
+                "$ref": "#/components/schemas/AttachmentType"
+              },
+              "metadata": {
+                "$ref": "#/components/schemas/AttachmentMetadata"
+              }
+            }
+          }
+        ]
+      },
+      "AttachmentType": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "Image",
+          "Video",
+          "File",
+          "Audio"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "AttachmentMetadata": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "mimeType": {
+            "type": "string"
+          },
+          "width": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "height": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
       },
       "SendMessageCommand": {
         "type": "object",
