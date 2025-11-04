@@ -1,5 +1,7 @@
+using MessengerApi.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection.Messages.Command.SendMessage;
+using Microsoft.Extensions.DependencyInjection.Messages.Queries.GetMessages;
 
 namespace Microsoft.Extensions.DependencyInjection.Controllers;
 
@@ -15,6 +17,13 @@ public class MessageController : ControllerBase
         _mediator = mediator;
     }
 
+    [HttpGet("{chatid:guid}")]
+    public async Task<ActionResult<List<Message>>> GetByChatId(Guid chatid)
+    {
+        var messages = await _mediator.Send(new GetMessagesQuery(chatid));
+        return Ok(messages);
+    }
+    
     [HttpPost]
     public async Task<ActionResult<Guid>> Send([FromBody] SendMessageCommand command)
     {

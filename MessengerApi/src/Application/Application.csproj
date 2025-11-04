@@ -19,7 +19,6 @@
 
     <ItemGroup>
       <Folder Include="Chats\Queries\" />
-      <Folder Include="Messages\Queries\" />
       <Folder Include="Users\Command\" />
       <Folder Include="Users\Queries\" />
     </ItemGroup>
