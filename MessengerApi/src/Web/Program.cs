@@ -1,4 +1,5 @@
 using MessengerApi.Infrastructure.Data;
+using Microsoft.Extensions.DependencyInjection.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +40,9 @@ app.UseExceptionHandler(options => { });
 app.Map("/", () => Results.Redirect("/api"));
 
 //Middleware
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

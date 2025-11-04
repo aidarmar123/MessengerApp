@@ -21,5 +21,7 @@ public static class DependencyInjection
             cfg.AddOpenBehavior(typeof(ValidationBehaviour<,>));
             cfg.AddOpenBehavior(typeof(PerformanceBehaviour<,>));
         });
+        
+       builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
     }
 }

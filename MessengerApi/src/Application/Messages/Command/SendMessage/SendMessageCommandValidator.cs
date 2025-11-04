@@ -4,7 +4,7 @@ public class SendMessageCommandValidator:AbstractValidator<SendMessageCommand>
 {
     public SendMessageCommandValidator()
     {
-        RuleFor(x => x.ChatId).NotEmpty();
+        RuleFor(x => x.ChatId).NotEmpty().WithMessage("Chat id is required.");
         RuleFor(x => x.SenderId).NotEmpty();
         RuleFor(x => x.Content)
             .NotEmpty()
