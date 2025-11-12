@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace Messenger.Desktop;
+namespace Messenger.Desktop.Views;
 
 public partial class MainWindow : Window
 {
