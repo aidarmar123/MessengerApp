@@ -1,36 +1,96 @@
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Messenger.Desktop.Models;
 
 namespace Messenger.Desktop.Services;
 
-public static class NetManager
+public class NetManager
 {
-    private static readonly HttpClient HttpClient = new();
-    private static readonly string Url = "";
+    private readonly HttpClient _httpClient;
+    private readonly JsonSerializerOptions _jsonOptions;
+    private readonly string _url;
 
-    public static async Task<T?> Get<T>(string path)
+    public NetManager(HttpClient httpClient, string url)
     {
-        var response = await HttpClient.GetAsync(Url + path);
-        var responseString = await response.Content.ReadAsStringAsync();
-        var data = JsonSerializer.Deserialize<T>(responseString);
-        return data;
-    }
-public static async Task<T?> Auth<T>(string path)
-    {
-        var response = await HttpClient.GetAsync(Url + path);
-        var responseString = await response.Content.ReadAsStringAsync();
-        var data = JsonSerializer.Deserialize<T>(responseString);
-        return data;
+        _httpClient = httpClient;
+        _jsonOptions = new JsonSerializerOptions()
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase, WriteIndented = false
+        };
+        _url = url;
     }
 
-    
-    public static async Task<A?> Post<A, T>(string path, T data)
+
+    public async Task<T?> GetAsync<T>(string path)
     {
-        var jsonData =  JsonSerializer.Serialize(data, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
-        
-        var response = await HttpClient.PostAsync(Url + path, new StringContent(jsonData, Encoding.UTF8, "application/json"));
-        var responseString = await response.Content.ReadAsStringAsync();
-        return JsonSerializer.Deserialize<A>(responseString);
+        var response = await _httpClient.GetAsync(_url + path);
+        return await ReadResponseAsync<T>(response);
+    }
+
+    // ---- generic POST ----
+    public async Task<T?> PostAsync<T>(string path, object body)
+    {
+        var json = new StringContent(
+            JsonSerializer.Serialize(body, _jsonOptions),
+            Encoding.UTF8,
+            "application/json"
+        );
+
+        var response = await _httpClient.PostAsync(_url + path, json);
+        return await ReadResponseAsync<T>(response);
+    }
+
+    // ---- PUT ----
+    public async Task<T?> PutAsync<T>(string path, object body)
+    {
+        var json = new StringContent(
+            JsonSerializer.Serialize(body, _jsonOptions),
+            Encoding.UTF8,
+            "application/json"
+        );
+
+        var response = await _httpClient.PutAsync(_url + path, json);
+        return await ReadResponseAsync<T>(response);
+    }
+
+    // ---- DELETE ----
+    public async Task<T?> DeleteAsync<T>(string path)
+    {
+        var response = await _httpClient.DeleteAsync(_url + path);
+        return await ReadResponseAsync<T>(response);
+    }
+
+    // ---- Parse response ----
+    private async Task<T?> ReadResponseAsync<T>(HttpResponseMessage response)
+    {
+        var content = await response.Content.ReadAsStringAsync();
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception($"API error {response.StatusCode}: {content}");
+        }
+
+        return JsonSerializer.Deserialize<T>(content, _jsonOptions);
+    }
+
+    // ---- AUTH ----
+    public async Task<bool> AuthorizeAsync(string login, string password)
+    {
+        var response = await PostAsync<GetToken>(
+            "api/auth/login",
+            new { login, password }
+        );
+
+        if (response?.Token != null)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", response.Token);
+
+            return true;
+        }
+
+        return false;
     }
 }
