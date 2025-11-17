@@ -25,7 +25,7 @@ public static class DependencyInjection
             options.SuppressModelStateInvalidFilter = true);
 
         builder.Services.AddEndpointsApiExplorer();
-
+        builder.Services.AddSignalR();
         builder.Services.AddOpenApiDocument((configure, sp) =>
         {
             configure.Title = "MessengerApi API";

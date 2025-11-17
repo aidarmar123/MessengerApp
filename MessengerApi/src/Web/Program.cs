@@ -1,4 +1,5 @@
 using MessengerApi.Infrastructure.Data;
+using Microsoft.Extensions.DependencyInjection.Hubs;
 using Microsoft.Extensions.DependencyInjection.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,7 +47,7 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.MapHub<ChatHub>("/hub/chat");
 app.MapControllers();
 
 app.Run();

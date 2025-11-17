@@ -7,16 +7,16 @@ using Microsoft.Extensions.DependencyInjection.Messages.Queries.GetMessages;
 namespace Microsoft.Extensions.DependencyInjection.Services;
 
 
-public class SignalRNotificationService : IMessageNotifier
+public class MessageNotifier : IMessageNotifier
 {
     private readonly IHubContext<ChatHub> _hubContext;
 
-    public SignalRNotificationService(IHubContext<ChatHub> hubContext)
+    public MessageNotifier(IHubContext<ChatHub> hubContext)
     {
         _hubContext = hubContext;
     }
 
-    public async Task SendNotificationToAllAsync(string message)
+    public async Task SendNotificationToAllAsync(MessageDto message)
     {
         await _hubContext.Clients.All.SendAsync("ReceiveNotification", message);
     }

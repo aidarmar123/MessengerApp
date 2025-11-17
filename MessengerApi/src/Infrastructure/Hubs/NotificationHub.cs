@@ -1,6 +1,7 @@
+using Microsoft.AspNetCore.SignalR;
+
 namespace Microsoft.Extensions.DependencyInjection.Hubs;
 
-public class NotificationHub
+public class ChatHub:Hub
 {
-    
 }

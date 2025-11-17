@@ -1,5 +1,4 @@
 ﻿using MessengerApi.Application.Common.Interfaces;
-using MessengerApi.Domain.Constants;
 using MessengerApi.Infrastructure.Data;
 using MessengerApi.Infrastructure.Data.Interceptors;
 using MessengerApi.Infrastructure.Identity;
@@ -7,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection.Services;
 using Microsoft.Extensions.Hosting;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -49,6 +49,7 @@ public static class DependencyInjection
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddApiEndpoints();
 
+        builder.Services.AddScoped<IMessageNotifier, MessageNotifier>();
         builder.Services.AddSingleton(TimeProvider.System);
         builder.Services.AddTransient<IIdentityService, IdentityService>();
 
