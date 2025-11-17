@@ -1,3 +1,5 @@
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection.Chats.Command.CreateChat;
 
@@ -5,6 +7,7 @@ namespace Microsoft.Extensions.DependencyInjection.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class ChatController : ControllerBase
 {
     private readonly IMediator _mediator;

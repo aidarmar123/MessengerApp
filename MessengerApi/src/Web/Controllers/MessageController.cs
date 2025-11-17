@@ -1,4 +1,6 @@
+
 using MessengerApi.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection.Messages.Command.SendMessage;
 using Microsoft.Extensions.DependencyInjection.Messages.Queries.GetMessages;
@@ -8,6 +10,7 @@ namespace Microsoft.Extensions.DependencyInjection.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class MessageController : ControllerBase
 {
     private readonly IMediator _mediator;

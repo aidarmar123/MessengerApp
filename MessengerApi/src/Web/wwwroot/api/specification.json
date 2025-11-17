@@ -6,6 +6,38 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/Auth/AuthUser": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "operationId": "Auth_AuthUser",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Chat": {
       "post": {
         "tags": [
@@ -36,7 +68,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       }
     },
     "/api/Message/{chatid}": {
@@ -71,7 +108,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       }
     },
     "/api/Message": {
@@ -104,12 +146,38 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       }
     }
   },
   "components": {
     "schemas": {
+      "AuthDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "displayName": {
+            "type": "string"
+          }
+        }
+      },
       "CreateChatCommand": {
         "type": "object",
         "additionalProperties": false,

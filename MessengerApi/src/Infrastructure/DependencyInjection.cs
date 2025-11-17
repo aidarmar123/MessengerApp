@@ -48,7 +48,7 @@ public static class DependencyInjection
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddApiEndpoints();
-
+        builder.Services.AddScoped<IJwtService, JwtService>();
         builder.Services.AddScoped<IMessageNotifier, MessageNotifier>();
         builder.Services.AddSingleton(TimeProvider.System);
         builder.Services.AddTransient<IIdentityService, IdentityService>();
