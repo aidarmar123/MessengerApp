@@ -1,4 +1,5 @@
 using MessengerApi.Infrastructure.Data;
+using Web;
 
 var builder = WebApplication.CreateBuilder(args);
 

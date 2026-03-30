@@ -1,7 +1,12 @@
+using MessengerApi.Application.Chats.Dto;
+using MessengerApi.Application.Chats.Queries.GetChats;
+using MessengerApi.Application.Common.Models;
 using MessengerApi.Application.Messages.Command.SendMessage;
+using MessengerApi.Application.Messages.Dto;
+using MessengerApi.Application.Messages.Queries.GetMessagesQuery;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Microsoft.Extensions.DependencyInjection.Controllers;
+namespace Web.Controllers;
 
 
 [ApiController]
@@ -15,10 +20,18 @@ public class MessageController : ControllerBase
         _mediator = mediator;
     }
 
+    [HttpGet]
+    public async Task<ActionResult<PaginatedList<MessageDto>>> GetMessage([FromQuery] GetMessagesQuery query)
+    {
+        var result = await _mediator.Send(query);
+        return Ok(result);
+    }
+
     [HttpPost]
     public async Task<ActionResult<Guid>> Send([FromBody] SendMessageCommand command)
     {
         var messageId = await _mediator.Send(command);
         return Ok(messageId);
     }
+  
 }

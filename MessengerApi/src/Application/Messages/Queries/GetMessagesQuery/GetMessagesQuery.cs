@@ -7,7 +7,7 @@ using MessengerApi.Application.Common.Models;
 using MessengerApi.Application.Messages.Dto;
 
 namespace MessengerApi.Application.Messages.Queries.GetMessagesQuery;
-record class GetMessagesQuery : IRequest<PaginatedList<MessageDto>>
+public record class GetMessagesQuery : IRequest<PaginatedList<MessageDto>>
 {
     public Guid ChatId { get; set; }
     public int Offset { get; set; } = 0;
