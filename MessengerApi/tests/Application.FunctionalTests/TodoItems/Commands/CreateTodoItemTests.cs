@@ -1,6 +1,4 @@
 ﻿using MessengerApi.Application.Common.Exceptions;
-using MessengerApi.Application.TodoItems.Commands.CreateTodoItem;
-using MessengerApi.Application.TodoLists.Commands.CreateTodoList;
 using MessengerApi.Domain.Entities;
 
 namespace MessengerApi.Application.FunctionalTests.TodoItems.Commands;

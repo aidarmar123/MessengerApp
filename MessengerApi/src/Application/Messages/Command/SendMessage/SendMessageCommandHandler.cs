@@ -6,12 +6,14 @@ namespace MessengerApi.Application.Messages.Command.SendMessage;
 public class SendMessageCommandHandler:IRequestHandler<SendMessageCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
+    private readonly INotificationService _notificationService; 
 
-    public SendMessageCommandHandler(IApplicationDbContext context)
+    public SendMessageCommandHandler(IApplicationDbContext context, INotificationService notificationService)
     {
         _context = context;
+        _notificationService = notificationService;
     }
-    
+
     public async Task<Guid> Handle(SendMessageCommand request, CancellationToken cancellationToken)
     {
         var message = new Message
