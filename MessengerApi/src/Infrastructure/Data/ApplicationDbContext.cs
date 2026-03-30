@@ -19,6 +19,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
     public DbSet<Message> Messages => Set<Message>();
     public DbSet<Attachment> Attachments => Set<Attachment>();
 
+    public DbSet<ChatMember> ChatMembers => Set<ChatMember>();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

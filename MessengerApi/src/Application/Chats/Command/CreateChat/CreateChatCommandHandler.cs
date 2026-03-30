@@ -1,7 +1,7 @@
 using MessengerApi.Application.Common.Interfaces;
 using MessengerApi.Domain.Entities;
 
-namespace Microsoft.Extensions.DependencyInjection.Chats.Command.CreateChat;
+namespace MessengerApi.Application.Chats.Commands.CreateChat;
 
 public class CreateChatCommandHandler: IRequestHandler<CreateChatCommand, Guid>
 {

@@ -1,5 +1,5 @@
+using MessengerApi.Application.Messages.Command.SendMessage;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection.Messages.Command.SendMessage;
 
 namespace Microsoft.Extensions.DependencyInjection.Controllers;
 

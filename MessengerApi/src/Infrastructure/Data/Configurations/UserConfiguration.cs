@@ -15,7 +15,6 @@ public class UserConfiguration:IEntityTypeConfiguration<User>
         builder.Property(u => u.Alice)
             .IsRequired();
 
-        builder.HasMany(u => u.Chats)
-            .WithMany(c => c.Participants);
+       
     }
 }

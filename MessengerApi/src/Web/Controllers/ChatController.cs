@@ -1,5 +1,5 @@
+using MessengerApi.Application.Chats.Commands.CreateChat;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection.Chats.Command.CreateChat;
 
 namespace Microsoft.Extensions.DependencyInjection.Controllers;
 

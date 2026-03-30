@@ -7,6 +7,6 @@ public class User:BaseAuditableEntity
     public string Displayname { get; set; } = string.Empty;
     public string Alice { get; set; } = string.Empty;
     
-    public ICollection<Chat> Chats { get; set; } = new List<Chat>();
+    public ICollection<ChatMember> Chats { get; set; } = new List<ChatMember>();
     public ICollection<Message> Messages { get; set; } = new List<Message>();
 }

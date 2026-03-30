@@ -1,4 +1,4 @@
-namespace Microsoft.Extensions.DependencyInjection.Messages.Command.SendMessage;
+namespace MessengerApi.Application.Messages.Command.SendMessage;
 
 public class SendMessageCommandValidator:AbstractValidator<SendMessageCommand>
 {

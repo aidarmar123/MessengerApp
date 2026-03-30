@@ -8,6 +8,7 @@ public interface IApplicationDbContext
     DbSet<Chat> Chats { get; }
     DbSet<Message> Messages { get; }
     DbSet<Attachment> Attachments { get; }
+    DbSet<ChatMember> ChatMembers { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
