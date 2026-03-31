@@ -3,6 +3,7 @@ using MessengerApi.Domain.Constants;
 using MessengerApi.Infrastructure.Data;
 using MessengerApi.Infrastructure.Data.Interceptors;
 using MessengerApi.Infrastructure.Identity;
+using MessengerApi.Infrastructure.Notifications;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -20,6 +21,7 @@ public static class DependencyInjection
 
         
         builder.Services.AddScoped<IUser, CurrentUser>();
+        builder.Services.AddScoped<INotificationService, NotificationService>();
         builder.Services.AddHttpContextAccessor();
         
         builder.Services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();

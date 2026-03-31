@@ -1,4 +1,5 @@
 using MessengerApi.Application.Common.Interfaces;
+using MessengerApi.Application.Messages.Dto;
 using MessengerApi.Domain.Entities;
 
 namespace MessengerApi.Application.Messages.Command.SendMessage;
@@ -26,6 +27,15 @@ public class SendMessageCommandHandler:IRequestHandler<SendMessageCommand, Guid>
 
         _context.Messages.Add(message);
         await _context.SaveChangesAsync(cancellationToken);
+
+        var dto = new MessageDto
+        {
+            Id = message.Id,
+            Content = message.Content,
+            SendAt = message.SendAt
+        };
+
+        await _notificationService.SendMessageAsync(request.ChatId, dto);
 
         return message.Id;
     }
